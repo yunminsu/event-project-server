@@ -8,5 +8,12 @@ router.get('/register', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-
+  try {
+    const { username, password } = req.body;
+    // const exisUser = await
+  } catch (err) {
+    
+  }
 });
+
+module.exports = router;
