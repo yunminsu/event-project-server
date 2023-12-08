@@ -1,5 +1,7 @@
 const { MongoClient } = require('mongodb');
 
+// mongodb+srv://admin:qwer%60123@cluster0.hqitiuj.mongodb.net/
+
 const { MONGO_ID, MONGO_PASSWORD } = process.env;
 const url = `mongodb+srv://${MONGO_ID}:${MONGO_PASSWORD}@cluster0.hqitiuj.mongodb.net/`;
 const client = new MongoClient(url);
