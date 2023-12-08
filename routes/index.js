@@ -5,8 +5,15 @@ const db = client.db('base');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.send('연동');
-  // res.json({
-
-  // });
+  // res.send('백엔드연동');
+  res.json({
+    flag: false,
+    message: '이클립스'  
+  });
+    
 });
+
+router.post('/test', (req, res) => {
+});
+
+module.exports = router;
