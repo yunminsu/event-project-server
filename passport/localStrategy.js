@@ -21,9 +21,9 @@ module.exports = () => {
       }
       // 비번 검사
       const result = await bcrypt.compare(password, existUser.password);
-      if (!result) { 
-        return done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
-      }
+      // if (!result) { 
+      //   return done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
+      // }
       // 아이디 비번 일치 시
       return done(null, existUser);
     } catch (err) {
