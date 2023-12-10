@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   try {
     const { username, password, pw, email } = req.body;
-    // const exisUser = await
+    console.log(username, password, pw, email);
     await db.collection('user').insertOne({
       username,
       password,
