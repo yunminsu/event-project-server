@@ -6,9 +6,9 @@ const db = client.db('base');
 
 const router = express.Router();
 
-// router.get('/register', async (req, res) => {
-//   res.render('register');
-// });
+router.get('/register', async (req, res) => {
+    res.send('dd');
+});
 
 router.post('/register', async (req, res) => {
   try {
