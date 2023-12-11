@@ -7,6 +7,7 @@ const isLoggedIn = (req, res, next) => {
   };
 
 const isNotLoggedIn = (req, res, next) => {
+  console.log('req.isAuthenticated:', req.isAuthenticated());
   if (!req.isAuthenticated()) {
     next();
   } else {
