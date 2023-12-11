@@ -13,6 +13,7 @@ dotenv.config();
 // 라우터 넣을 곳
 const indexRouter = require('./routes');
 const postRouter = require('./routes/post');
+const userRouter = require('./routes/user');
 
 // DB 연결 함수 가져오기
 const { connect } = require('./database/index');
@@ -62,6 +63,8 @@ app.use((req, res, next) => {
 // 미들웨어 라우터 넣을 곳
 app.use('/', indexRouter);
 app.use('/post', postRouter);
+app.use('/user', userRouter);
+
 
 app.use((req, res, next) => {
   const error = new Error( `${req.method} ${req.url} 라우터가 없습니다.`);
