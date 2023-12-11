@@ -14,7 +14,7 @@ const isNotLoggedIn = (req, res, next) => {
     res.redirect(`/?error=${message}`);
   }
 };
-
+ 
 const inputCheck = (req, res, next) => {
   const { username, password } = req.body;
   if (!username) {
