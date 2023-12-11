@@ -10,7 +10,7 @@ const router = express.Router();
 // 로그인 로그아웃 라우터
 router.get('/login', isNotLoggedIn, (req, res) => {
   // res.render('login');
-  res.send('dsf');
+  // res.send('dsf');
 });
 
 // POST /user/login
@@ -18,6 +18,9 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
   passport.authenticate('local', (authError, user, info) => {
     // user: 성공 시 로그인한 사용자 정보
     // info: 실패 시 이유
+    console.log(authError);
+    console.log(user);
+    console.log(info);
     if (authError) {
       console.error(authError);
       return res.status(500).json(authError);
@@ -28,7 +31,7 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
     // passport.serializeUser가 호출됨
     // user 객체가 serializeUser로 넘어가게 됨(index.js)
     req.login(user, (loginError) => {
-      console.log(user);
+      console.log(user.username);
       if (loginError) {
         console.log(loginError);
         return next(loginError);

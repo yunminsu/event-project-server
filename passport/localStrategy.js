@@ -20,7 +20,7 @@ module.exports = () => {
         return done(null, false, { message: '가입되지 않은 회원입니다' });
       }
       // 비번 검사
-      const result = await bcrypt.compare(password, existUser.password);
+      // const result = await bcrypt.compare(password, existUser.password);
       // if (!result) { 
       //   return done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
       // }
