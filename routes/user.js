@@ -14,7 +14,7 @@ router.get('/register', (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, password, pw, email } = req.body;
+    const { username, password, email } = req.body;
     const existUser = await db.collection('user').findOne({ username });
     if (existUser) {
       throw new Error('존재하는 사용자');
@@ -24,7 +24,6 @@ router.post('/register', async (req, res) => {
     await db.collection('user').insertOne({
       username,
       password : hash,
-      pw: hash,
       email
     });
     res.json({
