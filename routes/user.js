@@ -42,6 +42,7 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
         console.log(loginError);
         return next(loginError);
       }
+      console.log(req.user);
       res.json({
         flag: true,
         message: 'login success'

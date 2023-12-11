@@ -6,19 +6,29 @@ const router = express.Router();
 const db = client.db('base');
 
 router.get('/', (req, res) => {
-  res.render('main');
-});
-
-router.post('/', (req, res) => {
+  // res.render('main');
   if (req.user) {
     res.json({
       flag: true,
+      username: req.user.username
     });
   } else {
     res.json({
       flag: false
     })
   }
+});
+
+router.post('/', (req, res) => {
+  // if (req.user) {
+  //   res.json({
+  //     flag: true,
+  //   });
+  // } else {
+  //   res.json({
+  //     flag: false
+  //   })
+  // }
 });
 
 // 프론트에서 값 전달 받아 데이터베이스에 저장
