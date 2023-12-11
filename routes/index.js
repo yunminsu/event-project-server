@@ -1,14 +1,15 @@
 const express = require('express');
-
-const { client } = require('../database')
+const { client } = require('../database');
+const db = client.db('base');
 
 const router = express.Router();
-const db = client.db('base');
+const { client } = require('../database')
 
 router.get('/', (req, res) => {
   res.render('main');
 })
 
+module.exports = router;
 // 프론트에서 값 전달 받아 데이터베이스에 저장
 // router.post('/test', async (req, res) => {
 //   try {
