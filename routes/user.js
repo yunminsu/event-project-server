@@ -7,6 +7,36 @@ const db = client.db('base');  // board 데이터베이스에 연결. 없으면 
 
 const router = express.Router();
 
+router.get('/register', (req, res) => {
+  res.send('dd');
+});
+
+router.post('/register', async (req, res) => {
+  try {
+    const { username, password, email } = req.body;
+    const existUser = await db.collection('user').findOne({ username });
+    if (existUser) {
+      throw new Error('존재하는 사용자');
+    }
+
+    const hash = await bcrypt.hash(password, 12);
+    await db.collection('user').insertOne({
+      username,
+      password : hash,
+      email
+    });
+    res.json({
+      flag: true,
+      message: '회원 가입 성공'
+    });
+  } catch (err) {
+    console.error(err);
+    res.json({
+      flag: false,
+      message: err.message
+    });
+  }
+});
 // 로그인 로그아웃 라우터
 router.get('/login', isNotLoggedIn, (req, res) => {
   // res.render('login');
