@@ -12,11 +12,8 @@ dotenv.config();
 
 // 라우터 넣을 곳
 const indexRouter = require('./routes');
-<<<<<<< HEAD
 const postRouter = require('./routes/post');
-=======
 const userRouter = require('./routes/user');
->>>>>>> 2cd2d6093ebb2443c15fa11733ada0c8388f953d
 
 // DB 연결 함수 가져오기
 const { connect } = require('./database/index');
