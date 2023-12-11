@@ -3,7 +3,6 @@ const { client } = require('../database');
 const db = client.db('base');
 
 const router = express.Router();
-const { client } = require('../database')
 
 router.get('/', (req, res) => {
   res.render('main');
