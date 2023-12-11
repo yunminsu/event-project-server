@@ -28,6 +28,7 @@ app.set('view engine', 'ejs');
 connect();
 
 app.use(cors({
+  origin: 'http://localhost:3000',
   credentials: true 
 }));
 
