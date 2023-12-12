@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { client } = require('../database/index');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
+const { ObjectId } = require('mongodb');
 const db = client.db('base');  // board 데이터베이스에 연결. 없으면 생성됨
 
 const router = express.Router();
@@ -72,16 +73,26 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
         console.log(loginError);
         return next(loginError);
       }
-      console.log(req.user);
       res.json({
         flag: true,
-        message: 'login success'
+        message: 'login success',
+        // id: req.user._id,
+        // username: req.user.username
+        user: req.user,
       });
       // res.redirect('/');  // 로그인 완료 시 실행할 코드, 동기식으로 보냈기 때문에 redirect, 비동기면 res.json보냄
     });
   })(req, res, next);
 });
 
+router.post('/loginCheck', async (req, res, next) => {
+  const { id } = req.body;
+  const result = await db.collection('sessions').findOne({ _id: id });
+  console.log('세션',req.session);
+  res.json({
+    user: result,
+  })
+});
 
 // GET /user/logout
 // 우발적, 악의적 로그아웃을 방지하려면 GET 요청 대신 POST 또는 DELETE 요청 사용하면 좋음

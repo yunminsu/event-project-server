@@ -5,17 +5,8 @@ const db = client.db('base');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  // res.render('main');
-  if (req.user) {
-    res.json({
-      flag: true,
-      username: req.user.username
-    });
-  } else {
-    res.json({
-      flag: false
-    })
-  }
+  res.render('main');
+  
 });
 
 router.post('/', (req, res) => {
