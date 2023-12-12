@@ -88,9 +88,11 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
 router.post('/loginCheck', async (req, res, next) => {
   const { id } = req.body;
   const result = await db.collection('sessions').findOne({ _id: id });
-  console.log('세션',req.session);
+  // console.log('세션',req.session);
+  const info = JSON.parse(result.session).passport.user;
+  console.log(info);
   res.json({
-    user: result,
+    user: info,
   })
 });
 
