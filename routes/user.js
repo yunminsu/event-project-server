@@ -40,4 +40,18 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.post('/reserv', async (req, res) => {
+  try {
+    await db.collection('reserv').insertOne({
+      fstvlNm: req.body.reservItem.fstvlNm,
+      fstvlDate: `${req.body.reservItem.fstvlStartDate} ~ ${req.body.reservItem.fstvlEndDate}`,
+      count: req.body.count,
+      payTotal: req.body.payTotal,
+      payType: req.body.payBtn
+    })
+  } catch (err) {
+    console.error(err);
+  }
+})
+
 module.exports = router;
