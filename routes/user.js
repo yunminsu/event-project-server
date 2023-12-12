@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
-
+// const { isLoggedIn, isNotLoggedIn } =require('../middlewares');
 const { client } = require('../database');
 const db = client.db('base');
 
@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
     const { username, password, email } = req.body;
     const existUser = await db.collection('user').findOne({ username });
     if (existUser) {
-      throw new Error('존재하는 사용자');
+      throw new Error('이미 사용중인 아이디입니다.');
     }
 
     const hash = await bcrypt.hash(password, 12);
@@ -38,5 +38,6 @@ router.post('/register', async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;
