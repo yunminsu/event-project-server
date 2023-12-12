@@ -5,15 +5,20 @@ const app = express();
 const { client } = require('../database');
 const db = client.db('base');
 
-app.get('/', (req, res) => {
+const router = express.Router();
+
+
+app.get('/board', (req, res) => {
   res.send('ok');
 })
 
-app.post('/', async (req, res) => {
+app.post('/board', async (req, res) => {
   const title = req.body.title;
   const content = req.body.content;
-  await db.collection('Board').insertOne({
+  await db.collection('board').insertOne({
     title,
     content,
   })
-})
+});
+
+module.exports = router;

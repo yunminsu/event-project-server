@@ -14,6 +14,7 @@ dotenv.config();
 const indexRouter = require('./routes');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
+const boardRouter = require('./routes/board');
 
 // DB 연결 함수 가져오기
 const { connect } = require('./database/index');
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
+app.use('/board', boardRouter);
 
 app.use((req, res, next) => {
   const error = new Error( `${req.method} ${req.url} 라우터가 없습니다.`);
