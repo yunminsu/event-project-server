@@ -24,4 +24,21 @@ router.post('/', async (req, res) => {
   });
 });
 
+router.get('/list', (req, res) => {
+  res.send('okkk');
+})
+
+router.post('/list', async (req, res) => {
+  const title = req.body.title;
+  const content = req.body.content;
+  
+  const data = await db.collection('board').find({}).toArray()
+  res.
+  // res.json({
+  //   flag: true,
+  //   message: '등록 성공'
+  // });
+});
+
+
 module.exports = router;
