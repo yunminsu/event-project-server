@@ -76,9 +76,9 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
       res.json({
         flag: true,
         message: 'login success',
-        // id: req.user._id,
-        // username: req.user.username
-        user: req.user,
+        id: req.user._id,
+        username: req.user.username,
+        // user: req.user,
       });
       // res.redirect('/');  // 로그인 완료 시 실행할 코드, 동기식으로 보냈기 때문에 redirect, 비동기면 res.json보냄
     });
@@ -109,7 +109,7 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
 
 
 router.post('/reserv', async (req, res) => {
-  const { reservItem: { fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
+  const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
   try {
     await db.collection('reserv').insertOne({
       fstvlNm,
@@ -117,12 +117,25 @@ router.post('/reserv', async (req, res) => {
       count,
       payTotal,
       payType: payBtn,
-      user: userId,
+      user: new ObjectId(userId),
       userName
     })
   } catch (err) {
     console.error(err);
   }
-})
+});
+
+router.get('/reserv/info', async (req, res) => {
+  console.log(req.query);
+  try {
+    const result = await db.collection('reserv').find({ user: new ObjectId(req.query.userId) }).toArray();
+    res.send(
+      result
+    )
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 
 module.exports = router;
