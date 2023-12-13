@@ -24,17 +24,17 @@ router.post('/', async (req, res) => {
   });
 });
 
-router.get('/list', (req, res) => {
-  res.send('ok');
+router.get('/list', async (req, res) => {
+  // res.send('ok');
+  const result = await db.collection('board').find({}).toArray();
+  console.log(result);
 })
 
 router.post('/list', async (req, res) => {
   const title = req.body.title;
   const content = req.body.content;
-  await db.collection('list').find({
-    title,
-    content
-  })
+
+  await db.collection('board').find({}).toArray();
   res.json({
     title,
     content
