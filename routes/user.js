@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const { client } = require('../database');
 const db = client.db('base');
 const passport = require('passport');
-const { client } = require('../database/index');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
 const { ObjectId } = require('mongodb');
 
