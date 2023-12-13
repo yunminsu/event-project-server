@@ -11,7 +11,8 @@ const cors = require('cors');
 dotenv.config();
 
 // 라우터 넣을 곳
-const indexRouter = require('./routes');
+const indexRouter = require('./routes/index');
+const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 
 // DB 연결 함수 가져오기
@@ -27,7 +28,9 @@ app.set('view engine', 'ejs');
 connect();
 
 app.use(cors({
-  credentials: true 
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
 }));
 
 app.use(morgan('dev'));
@@ -40,7 +43,7 @@ app.use(session({
   saveUninitialized: false,
   secret: process.env.COOKIE_SECRET,
   cookie: {
-    httpOnly: true,
+    httpOnly: false,
     secure: false,  // 개발단계에선 false. 기본이 false
     // 만료기한 설정(expires, maxage) 안 하면 기본이 session
   },
@@ -61,13 +64,20 @@ app.use((req, res, next) => {
 
 // 미들웨어 라우터 넣을 곳
 app.use('/', indexRouter);
+app.use('/post', postRouter);
 app.use('/user', userRouter);
-
 
 app.use((req, res, next) => {
   const error = new Error( `${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
   next(error);
+});
+
+app.use((err, req, res, next) => {
+  res.locals.message = err.message;
+  res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
+  res.status(err.status || 500);
+  res.render('error');
 });
 
 app.listen(app.get('port'), () => {
