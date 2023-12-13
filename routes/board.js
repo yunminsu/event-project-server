@@ -24,16 +24,22 @@ router.post('/', async (req, res) => {
   });
 });
 
-router.get('/list', (req, res) => {
-  res.send('okkk');
+router.get('/list', async (req, res) => {
+  const data = await db.collection('board').find({}).toArray();
+  console.log(data);
+  
 })
 
 router.post('/list', async (req, res) => {
   const title = req.body.title;
   const content = req.body.content;
   
-  const data = await db.collection('board').find({}).toArray()
-  res.
+  await db.collection('board').find({}).toArray();
+  res.json({
+    title,
+    content
+  });
+
   // res.json({
   //   flag: true,
   //   message: '등록 성공'
