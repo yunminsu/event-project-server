@@ -79,9 +79,9 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
 });
 
 app.listen(app.get('port'), () => {
-  console.log(app.get('port'), '번 서버에서 대기 중');
+  console.log( '번 서버에서 대기 중');
 });

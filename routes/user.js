@@ -38,6 +38,7 @@ router.post('/register', async (req, res) => {
     });
   }
 });
+
 // 로그인 로그아웃 라우터
 router.get('/login', isNotLoggedIn, (req, res) => {
   if (req.user) {
@@ -85,12 +86,13 @@ router.post('/loginCheck', async (req, res, next) => {
   }
 });
 
-
 // GET /user/logout
-router.post('/logout', (req, res, next) => {
+router.post('/logout', isLoggedIn, (req, res, next) => {
+  req.logout((logoutError) => {
     if (logoutError) return next(logoutError);
     res.clearCookie('connect.sid');
     res.redirect('/');  
+  });
 });
 
 
