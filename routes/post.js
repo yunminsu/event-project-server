@@ -10,25 +10,29 @@ const db = client.db('base');
 
 const router = express.Router();
 
+router.get('/', (req,res) => {
+  res.render('main');
+});
+
 router.post('/comment', async (req, res, next) => {
   try {
-    // const { postId, content } = req.body;
-    console.log(req.body);
-    res.send('댓글');
-    // await db.collection('comment').insertOne({
-    //   content,
-    //   authorId: req.user._id,
-    //   author: req.user.username,
-    //   postId: new ObjectId(postId)
-    // });
-
-    // res.redirect(`/post/detail/${postId}`);
-
+    const { userId, content } = req.body;
+    // console.log(req.user);
+    await db.collection('comment').insertOne({
+      content,
+      authorId: req.user._id,
+      author: req.user.username,
+      postId: new ObjectId(userId)
+    });
+    res.json({
+      message: '댓글 등록 성공'
+    });
   } catch (err) {
     console.error(err);
     res.json({
       message: '댓글 등록 실패'
     })
+    // next(err);
   }
 });
 
