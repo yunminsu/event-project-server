@@ -10,18 +10,26 @@ const db = client.db('base');
 
 const router = express.Router();
 
-router.get('/', (req,res) => {
-  res.render('main');
+router.get('/comment', async (req, res) => {
+  try {
+    const list = await db.collection('comment').find({}).toArray();
+    res.json({
+      list
+    })
+    console.log(list);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 router.post('/comment', async (req, res, next) => {
   try {
-    const { userId, content } = req.body;
-    // console.log(req.user);
+    const { userId, content, userName } = req.body;
     await db.collection('comment').insertOne({
       content,
       authorId: new ObjectId(userId),
-      author: req.user.username,
+      author: userName
     });
     res.json({
       message: '댓글 등록 성공'
@@ -31,7 +39,7 @@ router.post('/comment', async (req, res, next) => {
     res.json({
       message: '댓글 등록 실패'
     })
-    // next(err);
+    next(err);
   }
 });
 

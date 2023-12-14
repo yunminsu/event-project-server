@@ -59,6 +59,7 @@ app.use(passport.session());
 // res.locals.user에 req.user 정보 넣어놓음
 app.use((req, res, next) => {
   res.locals.user = req.user;
+  // console.log(req.user);
   next();
   
 });
