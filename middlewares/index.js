@@ -6,7 +6,7 @@ const isLoggedIn = (req, res, next) => {
     const message = encodeURIComponent('로그인 필요');
     res.redirect(`/error=${message}`);
   }
-  };
+ };
 
 const isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {

@@ -99,4 +99,34 @@ router.get('/deleteAll', async (req, res) => {
 });
 
 
+router.post('/reserv', async (req, res) => {
+  const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
+  try {
+    await db.collection('reserv').insertOne({
+      fstvlNm,
+      fstvlDate: `${fstvlStartDate} ~ ${fstvlEndDate}`,
+      count,
+      payTotal,
+      payType: payBtn,
+      user: new ObjectId(userId),
+      userName
+    })
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get('/reserv/info', async (req, res) => {
+  console.log(req.query);
+  try {
+    const result = await db.collection('reserv').find({ user: new ObjectId(req.query.userId) }).toArray();
+    res.send(
+      result
+    )
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+
 module.exports = router;
