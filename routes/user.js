@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { client } = require('../database/index');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
+const { ObjectId } = require('mongodb');
 const db = client.db('base'); 
 
 const router = express.Router();
@@ -128,10 +129,15 @@ router.get('/reserv/info', async (req, res) => {
   }
 });
 
-router.post('/profile', (req, res, next) => {
-  if (req.user) {
+
+router.post('/profilePw', async (req, res, next) => {
+  const { id, password } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  const result = await db.collection('user').updateOne(
+    { _id: new ObjectId(id) }, {$set: { password: hash }});
+  if (result.modifiedCount) {
     res.json({
-      user: req.user,
+      flag: true,
     });
   }
 });
