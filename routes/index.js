@@ -5,6 +5,7 @@ const db = client.db('base');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+  console.log('루트',req.user);
   res.render('main');
   
 });

@@ -14,6 +14,7 @@ dotenv.config();
 const indexRouter = require('./routes/index');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
+const boardRouter = require('./routes/board');
 
 // DB 연결 함수 가져오기
 const { connect } = require('./database/index');
@@ -47,10 +48,10 @@ app.use(session({
     secure: false,  // 개발단계에선 false. 기본이 false
     // 만료기한 설정(expires, maxage) 안 하면 기본이 session
   },
-  store: MongoStore.create({
-    mongoUrl: `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PASSWORD}@cluster0.hqitiuj.mongodb.net/`,
-    dbName: 'base',
-  })
+  // store: MongoStore.create({
+  //   mongoUrl: `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PASSWORD}@cluster0.hqitiuj.mongodb.net/`,
+  //   dbName: 'base',
+  // })
 }));
 
 app.use(passport.initialize());
@@ -66,6 +67,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
+app.use('/board', boardRouter);
 
 app.use((req, res, next) => {
   const error = new Error( `${req.method} ${req.url} 라우터가 없습니다.`);
