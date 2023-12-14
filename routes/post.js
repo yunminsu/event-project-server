@@ -20,9 +20,8 @@ router.post('/comment', async (req, res, next) => {
     // console.log(req.user);
     await db.collection('comment').insertOne({
       content,
-      authorId: req.user._id,
+      authorId: new ObjectId(userId),
       author: req.user.username,
-      postId: new ObjectId(userId)
     });
     res.json({
       message: '댓글 등록 성공'
