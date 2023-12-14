@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { client } = require('../database/index');
+const { ObjectId } = require('mongodb');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
 const db = client.db('base'); 
 
@@ -75,9 +76,7 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
       res.json({
         flag: true,
         message: 'login success',
-        id: req.user._id,
-        username: req.user.username,
-        // user: req.user,
+        user: req.user,
       });
     });
   })(req, res, next);
@@ -128,12 +127,9 @@ router.post('/reserv', async (req, res) => {
 });
 
 router.get('/reserv/info', async (req, res) => {
-  console.log(req.query);
   try {
     const result = await db.collection('reserv').find({ user: new ObjectId(req.query.userId) }).toArray();
-    res.send(
-      result
-    )
+    res.json(result)
   } catch (err) {
     console.error(err);
   }
