@@ -99,11 +99,16 @@ router.post('/loginCheck', async (req, res, next) => {
 
 // GET /user/logout
 // 우발적, 악의적 로그아웃을 방지하려면 GET 요청 대신 POST 또는 DELETE 요청 사용하면 좋음
-router.post('/logout', isLoggedIn, (req, res, next) => {
+router.post('/logout',  (req, res, next) => {
+  console.log(req.user);
   // logout: req.user 객체와 req.session 객체를 제거
   req.logout((logoutError) => {  // 두 객체 제거 후 콜백 함수가 실행됨
     if (logoutError) return next(logoutError);
-    res.redirect('/');  // 로그아웃 완료 시 실행할 코드
+    res.json({
+      id: '',
+      username: ''
+    })
+    // res.redirect('/');  // 로그아웃 완료 시 실행할 코드
   });
 });
 
