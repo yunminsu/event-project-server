@@ -14,9 +14,15 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
   const title = req.body.title;
   const content = req.body.content;
+  const date = req.body.date;
+  const view = req.body.view;
+  const writer = req.body.writer;
   await db.collection('board').insertOne({
     title,
     content,
+    date,
+    view,
+    writer
   })
   res.json({
     flag: true,
@@ -25,20 +31,13 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/list', async (req, res) => {
-  // res.send('ok');
   const result = await db.collection('board').find({}).toArray();
+
   console.log(result);
+
+  res.send(result);
 })
 
-router.post('/list', async (req, res) => {
-  const title = req.body.title;
-  const content = req.body.content;
 
-  await db.collection('board').find({}).toArray();
-  res.json({
-    title,
-    content
-  });
-});
 
 module.exports = router;
