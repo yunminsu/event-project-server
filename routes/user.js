@@ -95,10 +95,6 @@ router.post('/logout', (req, res, next) => {
   });
 });
 
-router.get('/deleteAll', async (req, res) => {
-  await db.collection('sessions').deleteMany({});
-});
-
 
 router.post('/reserv', async (req, res) => {
   const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
@@ -130,6 +126,14 @@ router.get('/reserv/info', async (req, res) => {
 });
 
 
+router.post('/resign', async (req, res, next) => {
+  const { id } = req.body;
+  const result = await db.collection('user').deleteOne({ _id: new ObjectId(id) });
+  console.log(result);
+  
+});
+
+
 router.post('/profilePw', async (req, res, next) => {
   const { id, password } = req.body;
   const hash = await bcrypt.hash(password, 12);
@@ -142,5 +146,9 @@ router.post('/profilePw', async (req, res, next) => {
   }
 });
 
+
+router.get('/deleteAll', async (req, res) => {
+  await db.collection('sessions').deleteMany({});
+});
 
 module.exports = router;
