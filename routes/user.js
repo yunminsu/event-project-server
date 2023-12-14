@@ -51,7 +51,7 @@ router.get('/login', isNotLoggedIn, (req, res) => {
 });
 
 // POST /user/login
-router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
+router.post('/login', inputCheck, (req, res, next) => {
   passport.authenticate('local', (authError, user, info) => {
     if (authError) {
       console.error(authError);
@@ -86,7 +86,7 @@ router.post('/loginCheck', async (req, res, next) => {
 
 
 // GET /user/logout
-router.post('/logout', isLoggedIn, (req, res, next) => {
+router.post('/logout', (req, res, next) => {
   req.logout((logoutError) => {
     if (logoutError) return next(logoutError);
     res.clearCookie('connect.sid');
@@ -125,6 +125,14 @@ router.get('/reserv/info', async (req, res) => {
     )
   } catch (err) {
     console.error(err);
+  }
+});
+
+router.post('/profile', (req, res, next) => {
+  if (req.user) {
+    res.json({
+      user: req.user,
+    });
   }
 });
 
