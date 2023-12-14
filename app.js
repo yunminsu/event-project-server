@@ -12,7 +12,6 @@ dotenv.config();
 
 // 라우터 넣을 곳
 const indexRouter = require('./routes');
-const indexRouter = require('./routes/index');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const boardRouter = require('./routes/board');
