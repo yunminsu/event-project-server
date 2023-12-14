@@ -75,9 +75,9 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
       res.json({
         flag: true,
         message: 'login success',
-        // id: req.user._id,
-        // username: req.user.username
-        user: req.user,
+        id: req.user._id,
+        username: req.user.username,
+        // user: req.user,
       });
     });
   })(req, res, next);
@@ -107,6 +107,36 @@ router.post('/logout', (req, res, next) => {
 
 router.get('/deleteAll', async (req, res) => {
   await db.collection('sessions').deleteMany({});
+});
+
+
+router.post('/reserv', async (req, res) => {
+  const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
+  try {
+    await db.collection('reserv').insertOne({
+      fstvlNm,
+      fstvlDate: `${fstvlStartDate} ~ ${fstvlEndDate}`,
+      count,
+      payTotal,
+      payType: payBtn,
+      user: new ObjectId(userId),
+      userName
+    })
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get('/reserv/info', async (req, res) => {
+  console.log(req.query);
+  try {
+    const result = await db.collection('reserv').find({ user: new ObjectId(req.query.userId) }).toArray();
+    res.send(
+      result
+    )
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 
