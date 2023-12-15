@@ -3,6 +3,7 @@ const app = express();
 
 
 const { client } = require('../database');
+const { ObjectId } = require('mongodb');
 const db = client.db('base');
 
 const router = express.Router();
@@ -36,15 +37,29 @@ router.get('/list', async (req, res) => {
   console.log(result);
 
   res.send(result);
+  // db.collection('board').deleteMany({})
 })
 
 router.get('/listpage', async (req, res) => {
-  const result = await db.collection('board').find({}).toArray();
+  db.collection('board').updateOne({  })
+  const result = await db.collection('board').findOne({  }).toArray();
 
   console.log(result);
 
   res.send(result);
-})
+});
+
+router.post(`/listpage/`, async (req, res) => {
+  // const { postId } = req.params;
+  console.log(req.params);
+  // console.log(postId);
+  const result = db.collection('board').findOne({ _id: new ObjectId(postId) });
+  console.log(result);
+  res.json({
+    flag: true,
+    data: result,
+  });
+});
 
 
 module.exports = router;
