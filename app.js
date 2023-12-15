@@ -46,7 +46,6 @@ app.use(session({
   cookie: {
     httpOnly: false,
     secure: false,  // 개발단계에선 false. 기본이 false
-    // 만료기한 설정(expires, maxage) 안 하면 기본이 session
   },
   store: MongoStore.create({
     mongoUrl: `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PASSWORD}@cluster0.hqitiuj.mongodb.net/`,
