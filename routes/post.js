@@ -24,10 +24,11 @@ router.get('/comment', async (req, res) => {
 
 router.post('/comment', async (req, res, next) => {
   try {
-    const { userId, content, userName, _id } = req.body;
+    const { userId, content, userName, _id, today } = req.body;
     await db.collection('comment').insertOne({
       detailId: new ObjectId(_id),
       authorId: new ObjectId(userId),
+      date: today,
       content,
       author: userName
     });
@@ -41,6 +42,22 @@ router.post('/comment', async (req, res, next) => {
     })
     next(err);
   }
+});
+
+router.post('/comment/delete', async (req, res) => {
+  try {
+    await db.collection('comment').deleteOne({ 
+      _id: new ObjectId(req.body.id),
+      authorId: new ObjectId(req.body.userId)
+    });
+    res.send('삭제 성공')
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get('/deleteAllcomment', async (req, res) => {
+  await db.collection('comment').deleteMany({});
 });
 
 router.post('/reserv/delete', async (req, res) => {
