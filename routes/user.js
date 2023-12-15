@@ -75,14 +75,14 @@ router.post('/login', inputCheck, (req, res, next) => {
 });
 
 router.post('/loginCheck', async (req, res, next) => {
-  const { id } = req.body;
-  const result = await db.collection('sessions').findOne({ _id: id });
-  console.log(result);
-  if (result) {
+  // const { id } = req.body;
+  // const result = await db.collection('sessions').findOne({ _id: id });
+  // console.log(result);
+  // if (result) {
     res.json({
       user: req.user,
     })
-  }
+  // }
 });
 
 
@@ -129,7 +129,12 @@ router.get('/reserv/info', async (req, res) => {
 router.post('/resign', async (req, res, next) => {
   const { id } = req.body;
   const result = await db.collection('user').deleteOne({ _id: new ObjectId(id) });
-  console.log(result);
+  if (result.deletedCount) {
+    res.clearCookie('connect.sid');
+    res.json({
+      flag: true,
+    })
+  }
   
 });
 
