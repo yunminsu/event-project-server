@@ -1,10 +1,11 @@
 const isLoggedIn = (req, res, next) => {
+  console.log('req.user', req.user);
   if (req.isAuthenticated()) { 
     next();
   } else {
-    // res.status(401).send('로그인 필요');
-    const message = encodeURIComponent('로그인 필요');
-    res.redirect(`/error=${message}`);
+    res.status(401).send('로그인 필요');
+    // const message = encodeURIComponent('로그인 필요');
+    // res.redirect(`/?error=${message}`);
   }
  };
 
