@@ -12,11 +12,10 @@ const router = express.Router();
 
 router.get('/comment', async (req, res) => {
   try {
-    const list = await db.collection('comment').find({}).toArray();
-    res.json({
+    const list = await db.collection('comment').find({ detailId: new ObjectId(req.query.detailId) }).toArray();
+    res.json(
       list
-    })
-    console.log(list);
+    )
   } catch (err) {
     console.error(err);
     next(err);
@@ -25,10 +24,11 @@ router.get('/comment', async (req, res) => {
 
 router.post('/comment', async (req, res, next) => {
   try {
-    const { userId, content, userName } = req.body;
+    const { userId, content, userName, _id } = req.body;
     await db.collection('comment').insertOne({
-      content,
+      detailId: new ObjectId(_id),
       authorId: new ObjectId(userId),
+      content,
       author: userName
     });
     res.json({

@@ -84,5 +84,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(app.get('port'), () => {
-  console.log( '번 서버에서 대기 중');
+  console.log(app.get('port') + '번 서버에서 대기 중');
 });
