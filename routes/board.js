@@ -38,6 +38,13 @@ router.get('/list', async (req, res) => {
   res.send(result);
 })
 
+router.get('/listpage', async (req, res) => {
+  const result = await db.collection('board').find({}).toArray();
+
+  console.log(result);
+
+  res.send(result);
+})
 
 
 module.exports = router;
