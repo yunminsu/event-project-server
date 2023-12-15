@@ -38,6 +38,7 @@ router.post('/register', async (req, res) => {
     });
   }
 });
+
 // 로그인 로그아웃 라우터
 router.get('/login', isNotLoggedIn, (req, res) => {
   if (req.user) {
@@ -85,7 +86,6 @@ router.post('/loginCheck', async (req, res, next) => {
   // }
 });
 
-
 // GET /user/logout
 router.post('/logout', (req, res, next) => {
   req.logout((logoutError) => {
@@ -95,6 +95,9 @@ router.post('/logout', (req, res, next) => {
   });
 });
 
+router.get('/deleteAll', async (req, res) => {
+  await db.collection('sessions').deleteMany({});
+});
 
 router.post('/reserv', async (req, res) => {
   const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body

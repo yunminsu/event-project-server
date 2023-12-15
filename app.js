@@ -11,7 +11,7 @@ const cors = require('cors');
 dotenv.config();
 
 // 라우터 넣을 곳
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const boardRouter = require('./routes/board');
@@ -59,7 +59,9 @@ app.use(passport.session());
 // res.locals.user에 req.user 정보 넣어놓음
 app.use((req, res, next) => {
   res.locals.user = req.user;
+  // console.log(req.user);
   next();
+  
 });
 
 // 미들웨어 라우터 넣을 곳
@@ -78,9 +80,9 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
 });
 
 app.listen(app.get('port'), () => {
-  console.log(app.get('port'), '번 서버에서 대기 중');
+  console.log(app.get('port') + '번 서버에서 대기 중');
 });
