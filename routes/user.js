@@ -4,7 +4,6 @@ const passport = require('passport');
 const { client } = require('../database/index');
 const { ObjectId } = require('mongodb');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
-const { ObjectId } = require('mongodb');
 const db = client.db('base'); 
 
 const router = express.Router();
