@@ -32,4 +32,14 @@ router.post('/comment', async (req, res, next) => {
   }
 });
 
+router.post('/reserv/delete', async (req, res) => {
+  try {
+    const result = await db.collection('reserv').deleteOne({ _id: new ObjectId(req.body.cancelId)});
+    console.log(result);
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+  }
+})
+
 module.exports = router;
