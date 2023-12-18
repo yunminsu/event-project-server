@@ -5,20 +5,9 @@ const db = client.db('base');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+  // console.log('루트',req.user);
   res.render('main');
   
-});
-
-router.post('/', (req, res) => {
-  // if (req.user) {
-  //   res.json({
-  //     flag: true,
-  //   });
-  // } else {
-  //   res.json({
-  //     flag: false
-  //   })
-  // }
 });
 
 router.get('/list', async (req, res) => {
@@ -30,5 +19,5 @@ router.get('/list', async (req, res) => {
   }
 });
 
-module.exports = router;
 
+module.exports = router;
