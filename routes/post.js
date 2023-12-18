@@ -56,6 +56,20 @@ router.post('/comment/delete', async (req, res) => {
   }
 });
 
+router.post('/comment/update', async (req, res) => {
+  try {
+    await db.collection('comment').updateOne({
+      _id: new ObjectId(req.body.selectContent)
+    }, {
+      $set: { content: req.body.updateContent }
+    });
+
+    res.json({ message: '수정 완료' });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 router.get('/deleteAllcomment', async (req, res) => {
   await db.collection('comment').deleteMany({});
 });
