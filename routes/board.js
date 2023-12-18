@@ -43,6 +43,7 @@ router.get('/listpage', async (req, res) => {
 router.post(`/listpage`, async (req, res) => {
   const { postId } = req.body;
   console.log(postId);
+  await db.collection('board').updateOne({ _id: new Object(postId) }, {$inc: { 'view': 1 }});
   const result = await db.collection('board').findOne({ _id: new ObjectId(postId) });
   console.log(result);
   res.json({
