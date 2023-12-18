@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
   
 });
 
-
 router.get('/list', async (req, res) => {
   try {
     const lists = await db.collection('list').find({}).toArray();
