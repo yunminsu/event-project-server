@@ -11,7 +11,6 @@ module.exports = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    console.log('deseri', id);
     try {
       const user = await db.collection('user').findOne({ _id: new ObjectId(id) });
       done(null, user);

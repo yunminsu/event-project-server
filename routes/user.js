@@ -2,7 +2,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { client } = require('../database/index');
-const { ObjectId } = require('mongodb');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
 const db = client.db('base'); 
 
@@ -38,6 +37,7 @@ router.post('/register', async (req, res) => {
     });
   }
 });
+
 // 로그인 로그아웃 라우터
 router.get('/login', isNotLoggedIn, (req, res) => {
   if (req.user) {
@@ -52,7 +52,7 @@ router.get('/login', isNotLoggedIn, (req, res) => {
 });
 
 // POST /user/login
-router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
+router.post('/login', inputCheck, (req, res, next) => {
   passport.authenticate('local', (authError, user, info) => {
     if (authError) {
       console.error(authError);
@@ -75,19 +75,18 @@ router.post('/login', isNotLoggedIn, inputCheck, (req, res, next) => {
 });
 
 router.post('/loginCheck', async (req, res, next) => {
-  const { id } = req.body;
-  const result = await db.collection('sessions').findOne({ _id: id });
-  console.log(result);
-  if (result) {
+  // const { id } = req.body;
+  // const result = await db.collection('sessions').findOne({ _id: id });
+  // console.log(result);
+  // if (result) {
     res.json({
       user: req.user,
     })
-  }
+  // }
 });
 
-
 // GET /user/logout
-router.post('/logout', isLoggedIn, (req, res, next) => {
+router.post('/logout', (req, res, next) => {
   req.logout((logoutError) => {
     if (logoutError) return next(logoutError);
     res.clearCookie('connect.sid');
@@ -98,7 +97,6 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
 router.get('/deleteAll', async (req, res) => {
   await db.collection('sessions').deleteMany({});
 });
-
 
 router.post('/reserv', async (req, res) => {
   const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
@@ -126,5 +124,35 @@ router.get('/reserv/info', async (req, res) => {
   }
 });
 
+
+router.post('/resign', async (req, res, next) => {
+  const { id } = req.body;
+  const result = await db.collection('user').deleteOne({ _id: new ObjectId(id) });
+  if (result.deletedCount) {
+    res.clearCookie('connect.sid');
+    res.json({
+      flag: true,
+    })
+  }
+  
+});
+
+
+router.post('/profilePw', async (req, res, next) => {
+  const { id, password } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  const result = await db.collection('user').updateOne(
+    { _id: new ObjectId(id) }, {$set: { password: hash }});
+  if (result.modifiedCount) {
+    res.json({
+      flag: true,
+    });
+  }
+});
+
+
+router.get('/deleteAll', async (req, res) => {
+  await db.collection('sessions').deleteMany({});
+});
 
 module.exports = router;
