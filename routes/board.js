@@ -43,7 +43,8 @@ router.get('/listpage', async (req, res) => {
 router.post(`/listpage`, async (req, res) => {
   const { postId } = req.body;
   console.log(postId);
-  await db.collection('board').updateOne({ _id: new Object(postId) }, {$inc: { 'view': 1 }});
+  const count = await db.collection('board').updateOne({ _id: new ObjectId(postId) }, {$inc: { view: 1 }});
+  console.log('카운트',count);
   const result = await db.collection('board').findOne({ _id: new ObjectId(postId) });
   console.log(result);
   res.json({
@@ -52,5 +53,28 @@ router.post(`/listpage`, async (req, res) => {
   });
 });
 
+
+// 게시글 삭제
+router.post('/listpage/delete', async (req, res) => {
+  try {
+    const result = await db.collection('board').deleteOne({
+      _id: new ObjectId(req.body.postId),
+      writer: req.body.username
+    })
+    if (result.deletedCount === 0) {
+      throw new Error('삭제 실패');
+    }
+    res.json({
+      flag: true, 
+      message: '삭제 성공'
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      flag: false,
+      message: err.message
+    });
+  }
+});
 
 module.exports = router;
