@@ -4,6 +4,7 @@ const passport = require('passport');
 const { client } = require('../database/index');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
 const db = client.db('base'); 
+const { ObjectId } = require('mongodb');
 
 const router = express.Router();
 
@@ -99,7 +100,7 @@ router.get('/deleteAll', async (req, res) => {
 });
 
 router.post('/reserv', async (req, res) => {
-  const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId } = req.body
+  const { reservItem: { fstvlNm, fstvlStartDate, fstvlEndDate }, count, payTotal, payBtn, userName, userId, resp } = req.body
   try {
     await db.collection('reserv').insertOne({
       fstvlNm,
@@ -108,7 +109,8 @@ router.post('/reserv', async (req, res) => {
       payTotal,
       payType: payBtn,
       user: new ObjectId(userId),
-      userName
+      userName,
+      resp
     })
   } catch (err) {
     console.error(err);
