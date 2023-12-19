@@ -5,7 +5,6 @@ const { client } = require('../database/index');
 const { ObjectId } = require('mongodb');
 const { isNotLoggedIn, isLoggedIn, inputCheck } = require('../middlewares');
 const db = client.db('base'); 
-const { ObjectId } = require('mongodb');
 
 const router = express.Router();
 
