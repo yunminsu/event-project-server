@@ -29,7 +29,7 @@ app.set('view engine', 'ejs');
 connect();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://event-moum.netlify.app/' ],
   methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true
 }));
